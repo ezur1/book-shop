@@ -6,38 +6,39 @@ function onInit() {
 
 function renderBooks() {
     var books = getBooks();
-    var strHTMLs = '<table class="books-tbl"><tbody><tr><td>id</td><td>Title</td><td>Price</td><td colspan="3">Actions</td></tr>';
+    var strHTMLs = '<table class="books-tbl"><tbody><tr><td data-trans="id">id</td><td data-trans="title">Title</td><td data-trans="price">Price</td><td colspan="3" data-trans="actions">Actions</td></tr>';
     var booksHTMLs = books.map(function (book) {
         return `<tr><td>${book.id}</td>
                     <td>${book.name}</td>
-                    <td>${book.price}</td>
-                    <td><button onclick="showModal('${book.name}','${book.price}',${book.rate},${book.id},'${book.img}')" title="About this Book" class="btn">About Book</button></td>
-                    <td><button onclick="readAndUpdateBook(${book.id})" title="Remove this Book" class="btn">Update Book Price</button></td>
-                    <td><button onclick="onDeleteBook(${book.id})" title="Remove this Book" class="btn">Delete Book</button></td>
+                    <td data-trans="bookPrice">${book.price}</td>
+                    <td><button data-trans='about' onclick="showModal('${book.name}','${book.price}',${book.rate},${book.id},'${book.img}')" title="About this Book" class="btn">About Book</button></td>
+                    <td><button data-trans='update' onclick="readAndUpdateBook(${book.id})" title="Remove this Book" class="btn">Update Book Price</button></td>
+                    <td><button data-trans='delete' onclick="onDeleteBook(${book.id})" title="Remove this Book" class="btn">Delete Book</button></td>
                 </tr>`
     });
     strHTMLs += booksHTMLs.join('') + '</tbody></table></div>';
     console.log(strHTMLs);
     document.querySelector(".books-container").innerHTML = strHTMLs;
+    doTrans();
 }
 
 function onDeleteBook(bookId) {
-    var isSure = confirm('Are you sure?');
+    var isSure = confirm(getTrans('sureP'));
     if (!isSure) return;
     removeBook(bookId);
     renderBooks();
 }
 
 function readAndAddNewBook() {
-    var name = prompt('Book name?');
-    var price = prompt('Book Price?');
-    var imgSrc = prompt('img src?');
+    var name = prompt(getTrans('nameP'));
+    var price = prompt(getTrans('priceP'));
+    var imgSrc = prompt(getTrans('imgP'));
     addBook(name, price, imgSrc);
     renderBooks();
 }
 
 function readAndUpdateBook(bookId) {
-    var bookPrice = prompt('Book Price?');
+    var bookPrice = prompt(getTrans('priceP'));
     updateBook(bookId, bookPrice);
     renderBooks();
 }
@@ -68,6 +69,12 @@ function onRateChange(bookId,elBtn){
 }
 
 function closeModal(){
-    debugger;
     document.querySelector('.modal').style.display = 'none';
+}
+
+function onSetLang(lang){
+    setLang(lang);
+    if(lang==='he')document.body.classList.add('rtl');
+    else document.body.classList.remove('rtl');
+    doTrans();
 }

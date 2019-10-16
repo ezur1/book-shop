@@ -10,8 +10,8 @@ console.log(gBooks);
 function createBooks() {
     var books = loadCarsFromStorage();
     if (!books || books.length === 0) {
-        books = [createBook('Harry Potter and the Goblet of Fire', '28.79$', 'img/Harry-Potter.jpg'), createBook('The Vine Witch', '10.95$', 'img/The-Vine-Witch.jpg'),
-            createBook('The Very Hungry Caterpillar', '9.99$', 'img/The-Very-Hungry-Caterpillar.jpg')
+        books = [createBook('Harry Potter and the Goblet of Fire', '28.79', 'img/Harry-Potter.jpg'), createBook('The Vine Witch', '10.95', 'img/The-Vine-Witch.jpg'),
+            createBook('The Very Hungry Caterpillar', '9.99', 'img/The-Very-Hungry-Caterpillar.jpg')
         ];
     }
     gBooks = books;
@@ -52,7 +52,7 @@ function updateBook(bookId, bookPrice) {
         return bookId === book.id;
     })
     if (!book) return;
-    book.price = bookPrice + '$';
+    book.price = bookPrice;
     saveBooksToStorage();
 }
 
