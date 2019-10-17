@@ -10,7 +10,7 @@ function renderBooks() {
     var booksHTMLs = books.map(function (book) {
         return `<tr><td>${book.id}</td>
                     <td>${book.name}</td>
-                    <td data-trans="bookPrice">${book.price}</td>
+                    <td data-trans="bookPrice">${formatCurrency(book.price)}</td>
                     <td><button data-trans='about' onclick="showModal('${book.name}','${book.price}',${book.rate},${book.id},'${book.img}')" title="About this Book" class="btn">About Book</button></td>
                     <td><button data-trans='update' onclick="readAndUpdateBook(${book.id})" title="Remove this Book" class="btn">Update Book Price</button></td>
                     <td><button data-trans='delete' onclick="onDeleteBook(${book.id})" title="Remove this Book" class="btn">Delete Book</button></td>
@@ -31,8 +31,11 @@ function onDeleteBook(bookId) {
 
 function readAndAddNewBook() {
     var name = prompt(getTrans('nameP'));
+    if(!name){alert(getTrans('noName'));return;}
     var price = prompt(getTrans('priceP'));
+    if(!price){alert(getTrans('noPrice'));return;}
     var imgSrc = prompt(getTrans('imgP'));
+    if(!imgSrc){alert(getTrans('noImg'));return;}
     addBook(name, price, imgSrc);
     renderBooks();
 }
@@ -77,4 +80,5 @@ function onSetLang(lang){
     if(lang==='he')document.body.classList.add('rtl');
     else document.body.classList.remove('rtl');
     doTrans();
+    renderBooks();
 }

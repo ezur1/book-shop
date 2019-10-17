@@ -14,9 +14,11 @@ var gTrans = {
         add: 'Add New Book',
         sureP: 'Are you sure?',
         nameP: 'Book Name?',
-        priceP:'Book Price?',
-        imgP: 'img src?'
-
+        priceP: 'Book Price?',
+        imgP: 'img src?',
+        noName:'Please enter the book name!',
+        noPrice:'Please enter a valid book price!',
+        noImg:'Please enter the Img src!'
     },
     he: {
         header: 'חנות הספרים שלי',
@@ -30,8 +32,11 @@ var gTrans = {
         add: 'הוסף ספר חדש',
         sureP: 'בדוק?',
         nameP: 'שם הספר?',
-        priceP:'מחיר?',
-        imgP: 'כתובת לתמונה?'
+        priceP: 'מחיר?',
+        imgP: ' כתובת לתמונת הספר?',
+        noName:'אין ספר ללא שם!',
+        noPrice:'אני לא מסכים לחלק ספרים בחינם!',
+        noImg:'אין תמונה?!'
     },
     es: {
         header: 'bienvenido a mi librería',
@@ -45,14 +50,18 @@ var gTrans = {
         add: 'agregar nuevo libro',
         sureP: 'Estás seguro?',
         nameP: 'nombre del libro?',
-        priceP:'precio de libro?',
-        imgP: 'fuente img?'
+        priceP: 'precio de libro?',
+        imgP: 'fuente img?',
+        noName: '¡Ingrese el nombre del libro!',
+        noPrice:'¡Ingrese un precio de libro válido!',
+        noImg: '¡Ingrese el Img src!'
     }
 }
 
 function setLang(lang) {
     gCurrLang = lang;
 }
+
 function getLang() {
     return gCurrLang;
 }
@@ -62,13 +71,7 @@ function doTrans() {
     for (var i = 0; i < els.length; i++) {
         var el = els[i];
         var transKey = el.dataset.trans;
-        if (transKey === 'bookPrice') {
-            var price = el.innerText;
-            if (price.charAt(price.length - 1) === '₪') price = price.slice(0, price.length - 2);
-            else if(price.charAt(0)==='$'||price.charAt(0)==='€') price = price.slice(1, price.length-1);
-            price = formatCurrency(price);
-            el.innerText = price;
-        } else {
+        if (transKey != 'bookPrice') {
             var txt = getTrans(transKey);
             el.innerText = txt;
         }
@@ -97,7 +100,7 @@ function formatCurrency(num) {
             currency: 'ILS'
         }).format(num);
     } else {
-        num=Number(num);
+        num = Number(num);
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD'
